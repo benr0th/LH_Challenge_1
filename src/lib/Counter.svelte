@@ -1,6 +1,17 @@
 <script lang="ts">
   import L from 'leaflet';
-  import {publicIp, publicIpv4, publicIpv6} from 'public-ip';
+
+  let map;
+
+  window.onload = function() {
+    map = L.map('map', {
+      closePopupOnClick: false,
+    }).setView([33.272689, -10.96875], 2.5);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+  }
 
   if (window.localStorage.getItem('count') === null) {
     window.localStorage.setItem('count', '0')
@@ -14,29 +25,42 @@
   }
 
   function getCountryFromGeoIP() {
-  // Make a request to the GeoIP API
-  publicIpv4()
-    .then(ip => fetch(`https://ipapi.co/${ip}/json/`))
-    .then(response => response.json())
-    .then(data => {
-      // Extract the country from the response data
+    const requestOptions = {
+      method: 'GET',
+    };
+
+    fetch("https://api.geoapify.com/v1/ipinfo?&apiKey=7a1694e0f3234f6dad7d472e18468f57", requestOptions)
+      .then(response => response.json())
+      .then(async result => {
+        console.log(result);
+        document.getElementById('country').innerHTML = result.country.name;
+        const lat = result.location.latitude;
+        const long = result.location.longitude;
+        const state = await getStateFromLatLng(lat, long);
+        L.circle([lat, long], {radius: 100}).addTo(map)
+          .bindPopup(state + ", " + result.country.name + ` ${count}`)
+          .openPopup();
+      })
+      .catch(error => console.log('error', error));
+
+    async function getStateFromLatLng(lat, lng) {
+      const response = await fetch(`https://geocode.maps.co/reverse?lat=${lat}&lon=${lng}`);
+      const data = await response.json();
       console.log(data);
-      const country = data.country;
-      
-      // Use the country data to create a map or perform other actions
-      // For example:
-      const map = L.map('map').setView([data.latitude, data.longitude], 2);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-        maxZoom: 18,
-      }).addTo(map);
-      L.marker([data.latitude, data.longitude]).addTo(map)
-        .bindPopup(`You are in ${country}.`).openPopup();
-    })
-    .catch(error => console.error(error));
-}
+      const state = data.address.state;
+      document.getElementById('state').innerHTML = state;
+      return state;
+    }
+  };
+
+  function showClickText() {
+    setTimeout(() => {
+      document.getElementById('clickText').style.display = 'block';
+    }, 300);
+  };
+
 </script>
 
-<button on:click={increment} on:click={getCountryFromGeoIP}>
+<button on:click={increment} on:click={getCountryFromGeoIP} on:click={showClickText}>
   count is {count}
 </button>

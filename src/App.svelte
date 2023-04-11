@@ -7,7 +7,7 @@
     <Counter />
   </div>
 
-  <p>Clicking from <span id="country"></span>.</p>
+  <p id="clickText" style="display: none">Clicking from <span id="state"></span>, <span id="country"></span>.</p>
   <div id="map"></div>
 </main>
 
