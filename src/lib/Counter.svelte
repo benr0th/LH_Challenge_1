@@ -1,6 +1,7 @@
 <script lang="ts">
   import L from 'leaflet';
-  
+  import {publicIp, publicIpv4, publicIpv6} from 'public-ip';
+
   if (window.localStorage.getItem('count') === null) {
     window.localStorage.setItem('count', '0')
   }
@@ -14,15 +15,17 @@
 
   function getCountryFromGeoIP() {
   // Make a request to the GeoIP API
-  fetch('https://geoip-db.com/json/')
+  publicIpv4()
+    .then(ip => fetch(`https://ipapi.co/${ip}/json/`))
     .then(response => response.json())
     .then(data => {
       // Extract the country from the response data
-      const country = data.country_name;
+      console.log(data);
+      const country = data.country;
       
       // Use the country data to create a map or perform other actions
       // For example:
-      const map = L.map('mapid').setView([data.latitude, data.longitude], 13);
+      const map = L.map('map').setView([data.latitude, data.longitude], 2);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
         maxZoom: 18,
@@ -32,8 +35,6 @@
     })
     .catch(error => console.error(error));
 }
-
-  
 </script>
 
 <button on:click={increment} on:click={getCountryFromGeoIP}>

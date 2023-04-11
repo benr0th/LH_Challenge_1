@@ -8,6 +8,7 @@
   </div>
 
   <p>Clicking from <span id="country"></span>.</p>
+  <div id="map"></div>
 </main>
 
 <style>
