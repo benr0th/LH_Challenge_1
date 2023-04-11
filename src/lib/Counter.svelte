@@ -29,7 +29,7 @@
       method: 'GET',
     };
 
-    fetch("https://api.geoapify.com/v1/ipinfo?&apiKey=7a1694e0f3234f6dad7d472e18468f57", requestOptions)
+    fetch(`https://api.geoapify.com/v1/ipinfo?&apiKey=${process.env.GEO_API_KEY}`, requestOptions)
       .then(response => response.json())
       .then(async result => {
         console.log(result);
@@ -58,7 +58,6 @@
       document.getElementById('clickText').style.display = 'block';
     }, 300);
   };
-
 </script>
 
 <button on:click={increment} on:click={getCountryFromGeoIP} on:click={showClickText}>
