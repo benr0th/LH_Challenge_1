@@ -13,7 +13,7 @@
 
   // Your web app's Firebase configuration
   const firebaseConfig = {
-    apiKey: process.env.FIREBASE_API_KEY,
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: "lh-challenge-1-afd33.firebaseapp.com",
     projectId: "lh-challenge-1-afd33",
     storageBucket: "lh-challenge-1-afd33.appspot.com",
@@ -158,8 +158,7 @@
     const requestOptions = {
       method: 'GET',
     };
-    const api = process.env.GEO_API_KEY;
-    fetch(`https://api.geoapify.com/v1/ipinfo?&apiKey=${api}`, requestOptions)
+    fetch(`https://api.geoapify.com/v1/ipinfo?&apiKey=${process.env.NEXT_PUBLIC_GEO_API_KEY}`, requestOptions)
       .then(response => response.json())
       .then(async result => {
         lat = result.location.latitude;
