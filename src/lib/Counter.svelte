@@ -166,9 +166,6 @@
         country = result.country.name;
         document.getElementById('country').innerHTML = country;
         state = await getStateFromLatLng(lat, long);
-        const unsub = await onSnapshot(doc(db, "locations", country), (doc) => {
-          console.log("Current data: ", doc.data());
-        });
         await getCountFromDB();
         map.eachLayer(function (layer) {
           if (layer._latlng !== undefined) {
