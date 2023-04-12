@@ -115,8 +115,8 @@
   let localCount = parseInt(window.localStorage.getItem('localCount'))
 
   const localIncrement = () => {
-    count += 1
-    window.localStorage.setItem('localCount', count.toString())
+    localCount += 1
+    window.localStorage.setItem('localCount', localCount.toString())
   }
 
   // Get count from current country in DB
