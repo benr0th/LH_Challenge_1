@@ -1,2 +1,0 @@
-fix duping circles
-fix current popup changing on wrong lat/long
