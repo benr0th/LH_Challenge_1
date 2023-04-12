@@ -5,6 +5,7 @@ specifiers:
   '@tsconfig/svelte': ^3.0.0
   '@types/leaflet': ^1.9.3
   datatables.net-dt: ^1.13.4
+  dot-env: ^0.0.1
   dotenv: ^16.0.3
   firebase: ^9.19.1
   leaflet: ^1.9.3
@@ -26,6 +27,7 @@ devDependencies:
   '@sveltejs/vite-plugin-svelte': 2.0.4_svelte@3.58.0+vite@4.2.1
   '@tsconfig/svelte': 3.0.0
   '@types/leaflet': 1.9.3
+  dot-env: 0.0.1
   svelte: 3.58.0
   svelte-check: 2.10.3_svelte@3.58.0
   tslib: 2.5.0
@@ -1052,6 +1054,10 @@ packages:
     dependencies:
       dns-packet: 5.5.0
     dev: false
+
+  /dot-env/0.0.1:
+    resolution: {integrity: sha512-SajHtzm3v7yjMH8DW9xY+4i7Zv/cN3aMtLVy0mRMuZu8L9qRCR7CNqcl4KBbG27e5Up4BpSlEyPXXLNbSAe2DQ==}
+    dev: true
 
   /dotenv/16.0.3:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
