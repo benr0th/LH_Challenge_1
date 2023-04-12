@@ -158,8 +158,8 @@
     const requestOptions = {
       method: 'GET',
     };
-
-    fetch(`https://api.geoapify.com/v1/ipinfo?&apiKey=${process.env.GEO_API_KEY}`, requestOptions)
+    const api = process.env.GEO_API_KEY;
+    fetch(`https://api.geoapify.com/v1/ipinfo?&apiKey=${api}`, requestOptions)
       .then(response => response.json())
       .then(async result => {
         lat = result.location.latitude;
