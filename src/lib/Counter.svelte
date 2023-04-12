@@ -67,10 +67,23 @@
                 }
               }
             });
+            // make the radius of the circle proportional to the number of clicks
+            const radius = Math.sqrt(element.count) * 10000;
             // if the circle is not on the map, add it
             if (!exists) {
-              const circle = L.circle([element.lat, element.long], {radius: 100000}).addTo(map)
+              const circle = L.circle([element.lat, element.long], {radius: radius}).addTo(map)
                 .bindPopup(element.state + ", " + element.country + `: ${element.count} Clicks`);
+            }
+            // update size of each circle
+            else {
+              map.eachLayer(function (layer) {
+                if (layer._latlng !== undefined) {
+                  if (layer._latlng.lat === element.lat && layer._latlng.lng === element.long) {
+                    layer.setRadius(radius);
+                    layer.setPopupContent(element.state + ", " + element.country + `: ${element.count} Clicks`);
+                  }
+                }
+              });
             }
 
             // if the table does not already have the data, add it
@@ -92,6 +105,18 @@
         }
       });
     });
+  }
+
+  // add a local counter using localstorage
+  if (window.localStorage.getItem('localCount') === null) {
+    window.localStorage.setItem('localCount', '0')
+  }
+
+  let localCount = parseInt(window.localStorage.getItem('localCount'))
+
+  const localIncrement = () => {
+    count += 1
+    window.localStorage.setItem('localCount', count.toString())
   }
 
   // Get count from current country in DB
@@ -144,10 +169,13 @@
           console.log("Current data: ", doc.data());
         });
         await getCountFromDB();
-        L.circle([lat, long], {radius: 100000}).addTo(map)
-          .bindPopup(state + ", " + country + `: ${count} Clicks`)
-          .openPopup();
-
+        map.eachLayer(function (layer) {
+          if (layer._latlng !== undefined) {
+            if (layer._latlng.lat === lat && layer._latlng.lng === long) {
+              layer.openPopup();
+            }
+          }
+        });
         await addOrUpdateDB();
       })
       .catch(error => console.log('error', error));
@@ -195,6 +223,6 @@
   }
 </script>
 
-<button on:click={increment}>
-  count is {count}
+<button on:click={increment} on:click={localIncrement}>
+  count is {localCount}
 </button>
