@@ -79,8 +79,10 @@
               map.eachLayer(function (layer) {
                 if (layer._latlng !== undefined) {
                   if (layer._latlng.lat === element.lat && layer._latlng.lng === element.long) {
-                    layer.setRadius(radius);
                     layer.setPopupContent(element.state + ", " + element.country + `: ${element.count} Clicks`);
+                    if (layer instanceof L.CircleMarker){
+                      layer.setRadius(radius);
+                    }
                   }
                 }
               });
