@@ -9,6 +9,7 @@
 
   <p id="clickText" style="display: none">Clicking from <span id="state"></span>, <span id="country"></span>.</p>
   <div id="map"></div>
+  <table id="table"></table>
 </main>
 
 <style>
